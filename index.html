@@ -647,8 +647,17 @@
   .roll-row .ri{flex:1;min-width:0}
   .roll-row .nm{font-size:12.5px;color:#2c5b84;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .roll-row .mt{display:flex;gap:8px;align-items:center;font-size:11px;color:#8aa9c2;margin-top:2px}
-  .roll-row .st{flex:0 0 auto;font-size:11px;color:#e07414;font-weight:600}
+  .roll-row .st{flex:0 0 auto;font-size:11px;font-weight:600;color:#e07414;background:#fdf3e3;border:1px solid #f2d9a4;border-radius:10px;padding:1px 8px;white-space:nowrap}
+  .roll-row .st.blue{color:#1266ad;background:#e3f0fb;border-color:#b5d4f4}
+  .roll-row .st.red{color:#d33421;background:#fdeaea;border-color:#f3b3aa}
   .roll-row .st.ok{color:#0d8a56}
+  .roll-row .cd{margin-left:auto;color:#e07414;font-weight:600;white-space:nowrap}
+  .roll-row .cd.over{color:#d33421}
+  .roll-row .cd.blue{color:#1266ad}
+  .roll-flt{display:flex;gap:6px;margin:7px 0 8px}
+  .roll-flt span{font-size:11px;padding:2px 10px;border-radius:10px;border:1px solid #cfe5f6;background:#fff;color:#2c5b84;cursor:pointer;white-space:nowrap;transition:all .15s}
+  .roll-flt span:hover{border-color:#4aa3e6;background:#f5faff}
+  .roll-flt span.active{background:#eaf5fe;border-color:#1e88d0;color:#1266ad;font-weight:700}
   .roll-foot{display:flex;align-items:center;gap:14px;margin-top:auto;padding:8px 2px 0;border-top:1px dashed #d5e8f6;font-size:11px;color:#7a94ab}
   .roll-foot b{color:#1668b4;font-size:12px}
   .roll-foot .hl{margin-left:auto;color:#e07414}
@@ -895,7 +904,7 @@
         </div>
 
         <!-- 人工巡护 -->
-        <div class="panel" style="flex:1;min-height:0;overflow:hidden">
+        <div class="panel" style="flex:0 0 auto">
           <h3>人工巡护 <span class="more">今日签到 94% ▸</span></h3>
           <div class="sec-title" style="color:#c79012">// 专业巡查</div>
           <div class="stat-row" style="grid-template-columns:1fr 1fr">
@@ -909,13 +918,7 @@
             <div class="lv3">护林员-张三（巡查中）</div>
             <div class="lv3">网格员-李四（巡查中）</div>
           </div>
-          <div class="divider"></div>
-          <div class="sec-title" style="color:#c79012">// 群测群防（119、110、12345）</div>
-          <div class="stat-row" style="grid-template-columns:repeat(3,1fr);margin-top:2px">
-            <div class="stat"><div class="lb">群众上报</div><div class="vl">12<small>条</small></div></div>
-            <div class="stat ok"><div class="lb">已核实</div><div class="vl">9<small>条</small></div></div>
-            <div class="stat warn"><div class="lb">核实中</div><div class="vl">3<small>条</small></div></div>
-          </div>
+          <!-- 群测群防（119/110/12345 群众上报）暂时下线，待客户确认后恢复 -->
         </div>
 
         <!-- 火险气象 -->
@@ -1312,7 +1315,11 @@
               </circle>
               <circle r="5" fill="#f5a22e" stroke="#fff" stroke-width="1.5"/>
             </g>
-            <text x="236" y="168" fill="#d33421" font-weight="600">待研判 2 · 已研判 5</text>
+            <g transform="translate(548,376)"><circle r="5" fill="#1266ad" stroke="#fff" stroke-width="1.5"/></g>
+            <text x="558" y="381" fill="#1266ad" font-weight="600">核查中 1</text>
+            <g transform="translate(724,302)"><circle r="5" fill="#d33421" stroke="#fff" stroke-width="1.5"/></g>
+            <text x="734" y="307" fill="#d33421" font-weight="600">待派发 1</text>
+            <text x="236" y="168" fill="#d33421" font-weight="600">在研判 4（待2·核1·派1）· 已研判 3</text>
           </g>
 
           <!-- 在办工单点位图层（仅工单处理页显示） -->
@@ -1412,15 +1419,23 @@
 
       <!-- ---------- 告警研判（右：今日待研判告警） ---------- -->
       <div class="tabpage" data-page="judge">
-        <!-- 实时告警：仅展示待研判告警，已派发/处置中/已办结不再进入本列表 -->
+        <!-- 实时告警：研判责任段（待研判/核查中/待派发）；派发即转出至工单处理页，误报驳回即闭环移出 -->
         <div class="panel" style="flex:1;min-height:0;display:flex;flex-direction:column">
           <h3><span class="cal-tag">今日</span>实时告警 <span class="more" id="rollToggle" title="点击演示空态/恢复">待研判 · 2 条 ▸</span></h3>
-          <div class="roll-list" id="rollList">
-            <div class="roll-row"><span class="src-tag sat">卫星</span><div class="ri"><div class="nm">大箕铺镇石家垅村疑似火灾</div><div class="mt"><span class="lv-badge orange" style="transform:scale(.86)">橙色</span><span>11-06 08:12</span></div></div><span class="st">待研判</span></div>
-            <div class="roll-row"><span class="src-tag vid">视频AI</span><div class="ri"><div class="nm">殷祖镇南山村疑似烟火</div><div class="mt"><span class="lv-badge yellow" style="transform:scale(.86)">黄色</span><span>11-06 07:45</span></div></div><span class="st">待研判</span></div>
-            <div class="empty-state" id="rollEmpty"><span class="ei">📡</span>暂无待研判告警<br><span style="font-size:11px">今日告警已全部完成研判</span></div>
+          <div class="roll-flt" id="rollFlt">
+            <span data-f="all">全部 4</span>
+            <span data-f="wait" class="active">待研判 2</span>
+            <span data-f="check">核查中 1</span>
+            <span data-f="disp">待派发 1</span>
           </div>
-          <div class="roll-foot"><span>今日接入 <b>7</b></span><span>已研判 <b>5</b></span><span class="hl">待研判 <b>2</b></span></div>
+          <div class="roll-list" id="rollList">
+            <div class="roll-row" data-state="wait"><span class="src-tag sat">卫星</span><div class="ri"><div class="nm">大箕铺镇石家垅村疑似火灾</div><div class="mt"><span class="lv-badge orange" style="transform:scale(.86)">橙色</span><span>11-06 08:12</span><span class="cd">研判剩 18 分</span></div></div><span class="st">待研判</span></div>
+            <div class="roll-row" data-state="wait"><span class="src-tag vid">视频AI</span><div class="ri"><div class="nm">殷祖镇南山村疑似烟火</div><div class="mt"><span class="lv-badge yellow" style="transform:scale(.86)">黄色</span><span>11-06 07:45</span><span class="cd over">研判超时 6 分</span></div></div><span class="st">待研判</span></div>
+            <div class="roll-row" data-state="check" data-key="qixu"><span class="src-tag vid">视频AI</span><div class="ri"><div class="nm">金湖街道栖儒村秸秆燃烧</div><div class="mt"><span class="lv-badge yellow" style="transform:scale(.86)">黄色</span><span>11-06 08:03</span><span class="cd blue">核查剩 12 分</span></div></div><span class="st blue">核查中</span></div>
+            <div class="roll-row" data-state="disp" data-key="yangqiao"><span class="src-tag man">人工上报</span><div class="ri"><div class="nm">茗山乡杨桥村野外用火</div><div class="mt"><span class="lv-badge yellow" style="transform:scale(.86)">黄色</span><span>11-06 08:26</span><span class="cd over">派发剩 3 分</span></div></div><span class="st red">待派发</span></div>
+            <div class="empty-state" id="rollEmpty"><span class="ei">📡</span>暂无该状态告警<br><span style="font-size:11px">已全部完成研判或已派发转出</span></div>
+          </div>
+          <div class="roll-foot"><span>今日接入 <b>7</b></span><span>已派发 <b>2</b></span><span>误报驳回 <b>1</b></span><span class="hl">在研判 <b>4</b></span></div>
         </div>
       </div>
 
@@ -1811,7 +1826,8 @@
       <tr><th>指标</th><th>数值</th><th>定义 / 周期 / 排除项</th></tr>
       <tr><td>告警全量</td><td><b>249</b></td><td>平台累计接入告警；含历史归档 129 + 近30日 120</td></tr>
       <tr><td>近30日告警</td><td><b>120</b></td><td>近30日新增告警；告警统计六态与区域统计均以此为口径</td></tr>
-      <tr><td>今日新增告警</td><td><b>7</b></td><td>11-06 当日多源接入；其中<b>待研判 2 条</b>在实时告警中展示，已派发 / 处置中 / 已办结 5 条不再进入该列表（TOP3 乡镇 4+2+1=7 口径不变）</td></tr>
+      <tr><td>今日新增告警</td><td><b>7</b></td><td>11-06 当日多源接入；实时告警列表展示<b>研判责任段</b>共 <b>4</b> 条（待研判 2 / 核查中 1 / 待派发 1，支持状态筛选），已派发 2 条转出至工单处理页、误报驳回 1 条即闭环移出（TOP3 乡镇 4+2+1=7 口径不变）</td></tr>
+      <tr><td>实时告警列表范围</td><td><b>4</b></td><td>以「派发」为界：接入后、派发前的告警（待研判 / 核查中 / 待派发）；派发后归工单处理页视野，误报驳回计入误报样本，均不再占用本列表</td></tr>
       <tr><td>现场核查工单</td><td><b>75</b></td><td>近30日 120 条告警经研判，剔除误报驳回 45 条后生成；工单统计、告警统计六态、区域分布合计均为 75</td></tr>
       <tr><td>待处理 / 已办结</td><td><b>41 / 34</b></td><td>41 + 34 = 75；<b>超时 18 为待处理的子集标记</b>（非独立状态，不重复计数）</td></tr>
     </table>
@@ -1835,7 +1851,7 @@
     <h4>▍四、异常与边界口径</h4>
     <div class="cal-note">· 区域「待补坐标」不影响工单派发，仅影响地图点位展示；<br>· 超时工单自动升级市级响应并在列表标记「已升级市级」；<br>· 高危操作（派发 / 转派 / 退回 / 申请办结）仅<b>指挥长</b>可执行，退回与办结需二次确认；<br>· 评估标准时限沿用《产品优化方案 V1.0》：5 分钟村级响应、30 分钟到场、60 分钟集结、2 小时控制、24 小时核查、3 日归档。</div>
     <h4>▍五、页面分工与业务动线（本轮规则）</h4>
-    <div class="cal-note">· <b>告警研判</b>主页面只做汇聚：左栏为统计（告警统计 / 区域统计），右栏为<b>待研判</b>告警（已派发 / 处置中 / 已办结不再进入该列表），不承载研判动作；<br>· 点击任一告警信息（实时告警条目 / 卫星遥感告警卡）→ 右侧「告警详情」弹窗 → 底部操作栏常驻<b>四个出口</b>：<b>待核查</b>（指定乡镇值班室 + 核查时限，结果回传后回到研判）、<b>调度</b>（按工单等级带出派发/签收/到场时限与派发对象，并列出就近无人机/摄像头/物资/队伍/联系人）、<b>确认告警 · 一键派发</b>、<b>误报驳回</b>；<br>· <b>应急处置</b>以<b>火灾工单</b>为主对象：点击地图「工单点位」可切换不同工单的处置流程，任务清单 / 处置动态 / 力量 / 物资随工单联动；<br>· 弹窗会带入所点击告警的名称、等级、来源与时间；确认派发仅<b>指挥长</b>可执行且需二次确认，误报驳回需二次确认且不计入工单统计。</div>
+    <div class="cal-note">· <b>告警研判</b>主页面只做汇聚：左栏为统计（告警统计 / 区域统计），右栏为<b>实时告警</b>（<b>研判责任段</b>：待研判 / 核查中 / 待派发，支持状态筛选，条目带研判 / 核查 / 派发倒计时，超时标红；<b>告警一经派发即转出</b>至工单处理页，<b>一经误报驳回即闭环移出</b>），不承载研判动作；<br>· 点击任一告警信息（实时告警条目 / 卫星遥感告警卡）→ 右侧「告警详情」弹窗 → 底部操作栏常驻<b>四个出口</b>：<b>待核查</b>（指定乡镇值班室 + 核查时限，结果回传后回到研判）、<b>调度</b>（按工单等级带出派发/签收/到场时限与派发对象，并列出就近无人机/摄像头/物资/队伍/联系人）、<b>确认告警 · 一键派发</b>、<b>误报驳回</b>；<br>· <b>应急处置</b>以<b>火灾工单</b>为主对象：点击地图「工单点位」可切换不同工单的处置流程，任务清单 / 处置动态 / 力量 / 物资随工单联动；<br>· 弹窗会带入所点击告警的名称、等级、来源与时间；确认派发仅<b>指挥长</b>可执行且需二次确认，误报驳回需二次确认且不计入工单统计。</div>
   </div>
 </div>
 
@@ -1907,12 +1923,27 @@
   // 点击任一告警信息 → 打开右侧「告警研判 · 操作台」弹窗（工单卡除外，联动右栏详情）
   const drawer=document.getElementById('drawer');
   const drawerMask=document.getElementById('drawerMask');
+  // 实时告警各状态专属详情（核查中 / 待派发两条携带独立字段）
+  const ROLL_EXTRA={
+    qixu:{type:'秸秆燃烧（烟雾算法）· 秸秆焚烧场景',
+      content:'高点视频识别到农田东侧持续烟雾，初步核实为秸秆焚烧、暂未波及林缘；已转金湖街道值班室现场核查',
+      owner:'网格员-李强',pos:'栖儒村东侧农田约 80 米',coord:'115.021433, 30.091208',
+      feedback:'2026-11-06 08:20:00 · 已转金湖街道值班室核查（时限 30 分钟），等待结果回传',
+      note:'该告警处于「核查中」：乡镇值班室现场核实回传后，属实则回到指挥长研判并派发，误报则直接闭环并计入误报样本。',chkBusy:true},
+    yangqiao:{type:'野外用火（人工上报）· 森林防火场景',
+      content:'护林员巡查上报杨桥村西侧荒地烧荒，指挥长已研判属实；等待生成处置工单并指派责任部门（5 分钟派发时限）',
+      owner:'护林员-石勇',pos:'杨桥村西侧荒地约 120 米',coord:'114.986251, 30.075536',
+      feedback:'2026-11-06 08:31:00 · 研判属实（指挥长：Admin），待派发工单',
+      note:'该告警处于「待派发」：研判已完成、工单未派出，责任仍在研判席 —— 点击底部「确认告警 · 一键派发」指派责任部门与处置人。'}
+  };
   // 把所点击的告警信息带入弹窗，保证「点对哪条、研判哪条」
   function fillSubject(c){
     const txt=s=>{const e=c.querySelector(s);return e?e.textContent.trim():''};
     let nm='',lv='',src='',tm='';
     if(c.classList.contains('roll-row')){
-      nm=txt('.nm'); lv=txt('.lv-badge'); src=txt('.src-tag'); tm=txt('.mt span:last-child');
+      nm=txt('.nm'); lv=txt('.lv-badge'); src=txt('.src-tag');
+      const ts=[...c.querySelectorAll('.mt > span')].find(s=>!s.className);
+      tm=ts?ts.textContent.trim():'';
     }else{
       nm=txt('.nm'); lv='橙色'; src='卫星遥感'; tm=txt('.tm').replace('告警时间：','');
     }
@@ -1922,17 +1953,25 @@
       '<span class="lb">当前告警</span><span class="nm">'+nm+'</span>'+badge+
       '<span class="mt">'+src+' · '+tm+'</span>';
     // 详情字段同步跟随所点击的告警，避免「点了 A 却显示 B 的详情」
-    const area=nm.replace(/(疑似火灾告警|疑似火灾|疑似烟火|野外用火|秸秆焚烧|林缘热点)/g,'').trim()||'大冶市';
+    const area=nm.replace(/(疑似火灾告警|疑似火灾|疑似烟火|野外用火|秸秆燃烧|秸秆焚烧|林缘热点|荒火|烧荒|坟地烧纸)/g,'').trim()||'大冶市';
     const G=id=>document.getElementById(id);
     G('dName').textContent=nm;
     G('dArea').textContent=area.indexOf('大冶市')===0?area:'大冶市'+area;
     G('dSrc').textContent=src;
     G('dTime').textContent=/^\d{4}/.test(tm)?tm.replace(/\//g,'-'):('2026-'+tm);
-    G('dState').textContent=txt('.st')||'待研判';
+    // 告警状态随所点条目切换，并按状态配色（待研判橙 / 核查中蓝 / 待派发红）
+    const stTxt=txt('.st')||'待研判';
+    G('dState').textContent=stTxt;
+    G('dState').className='v '+(stTxt.indexOf('核查')>-1?'cyn':(stTxt.indexOf('派发')>-1?'red':'org'));
     // 换一条告警时，重置「待核查」按钮状态与静态详情字段
     const dc=document.getElementById('dCheck');
     if(dc){dc.classList.remove('disabled');dc.innerHTML='<span class="ic">🔍</span>待核查';dc.onclick=openChk;}
-    setDetailExtra(null);
+    const ex=ROLL_EXTRA[c.dataset&&c.dataset.key];
+    setDetailExtra(ex||null);
+    if(ex&&ex.chkBusy&&dc){
+      dc.classList.add('disabled');dc.innerHTML='<span class="ic">⏳</span>核查中';
+      dc.onclick=()=>toast('该告警已转 金湖街道值班室 核查（时限 30 分钟），等待结果回传','warn');
+    }
   }
   // 详情页静态字段（类型/内容/责任人/位置/坐标/处置反馈）随所点事件切换，默认回落为实时告警样例
   let detailLocked=false;
@@ -2112,9 +2151,10 @@
     });
   });
 
-  // 7. 实时告警流自动滚动（鼠标悬停暂停）
+  // 7. 实时告警流自动滚动（鼠标悬停暂停）+ 状态筛选（研判责任段）
   const roll=$('rollList');
-  let rollHover=false;
+  const ROLL_FLT_LBL={all:'全部',wait:'待研判',check:'核查中',disp:'待派发'};
+  let rollHover=false, rollF='wait', rollDemoEmpty=false;
   if(roll){
     roll.addEventListener('mouseenter',()=>{rollHover=true;});
     roll.addEventListener('mouseleave',()=>{rollHover=false;});
@@ -2123,15 +2163,31 @@
       roll.scrollTop+=34;
       if(roll.scrollTop+roll.clientHeight>=roll.scrollHeight-2)roll.scrollTop=0;
     },2600);
-    // 点击标题演示「暂无待研判告警」空态 / 恢复
-    let rollEmpty=false;
+    function applyRoll(){
+      const rows=[...roll.querySelectorAll('.roll-row')];
+      let vis=0;
+      rows.forEach(r=>{
+        const show=!rollDemoEmpty&&(rollF==='all'||r.dataset.state===rollF);
+        r.style.display=show?'':'none';
+        if(show)vis++;
+      });
+      $('rollEmpty').classList.toggle('show',vis===0);
+      const lbl=ROLL_FLT_LBL[rollF];
+      $('rollToggle').textContent=rollDemoEmpty?('暂无'+lbl+' · 点击恢复 ▸'):(lbl+' · '+vis+' 条 ▸');
+    }
+    document.querySelectorAll('#rollFlt span').forEach(s=>{
+      s.addEventListener('click',()=>{
+        document.querySelectorAll('#rollFlt span').forEach(x=>x.classList.remove('active'));
+        s.classList.add('active'); rollF=s.dataset.f; rollDemoEmpty=false; applyRoll();
+        toast('已筛选「'+ROLL_FLT_LBL[rollF]+'」：'+roll.querySelectorAll('.roll-row[data-state="'+rollF+'"]').length+' 条','');
+      });
+    });
+    // 点击标题演示「暂无该状态告警」空态 / 恢复
     $('rollToggle').onclick=()=>{
-      rollEmpty=!rollEmpty;
-      roll.querySelectorAll('.roll-row').forEach(r=>{r.style.display=rollEmpty?'none':'';});
-      $('rollEmpty').classList.toggle('show',rollEmpty);
-      $('rollToggle').textContent=rollEmpty?'暂无待研判 · 点击恢复 ▸':'待研判 · 2 条 ▸';
-      toast(rollEmpty?'已切换至空态演示：今日告警已全部完成研判':'已恢复待研判告警列表','');
+      rollDemoEmpty=!rollDemoEmpty; applyRoll();
+      toast(rollDemoEmpty?'已切换至空态演示：该状态告警已全部完成或转出':'已恢复「'+ROLL_FLT_LBL[rollF]+'」列表','');
     };
+    applyRoll();
   }
 
   // 8. 区域统计 → 未闭环事件抽屉（点击区域弹出该区域事件清单，点击行展开情况简报）
