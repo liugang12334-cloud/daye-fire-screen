@@ -870,7 +870,7 @@
     </nav>
     <div class="head-right">
       <div class="datetime">
-        <span>📍 黄石·大冶</span><span id="dt">2026-11-06 周五 09:05:33</span>
+        <span>📍 大冶</span><span id="dt">2026-11-06 周五 09:05:33</span>
       </div>
       <div class="hr-line">
         <span class="hd-btn" id="calOpen">ⓘ 口径说明</span>
@@ -1701,7 +1701,7 @@
         <b id="dspTitle">森林火情 · 待调度</b>
         <span class="dsp-no" id="wdNo">WO-20261106-0021</span>
       </div>
-      <div class="dsp-path">所属区域：<span id="dspPath">湖北省 / 黄石市 / 大冶市 / 大箕铺镇 / 石家垅村</span></div>
+      <div class="dsp-path">所属区域：<span id="dspPath">湖北省 / 大冶市 / 大箕铺镇 / 石家垅村</span></div>
     </div>
     <div class="dsp-info">
       <b id="dspInfoTitle">黄色预警工单 · 未达到森林火灾标准的火情（三级预警工单）</b><br>
@@ -2456,7 +2456,7 @@
       黄色:'黄色预警工单 · 未达到森林火灾标准的火情（三级预警工单）'
     };
     $('dspInfoTitle').textContent=infoTitle[lv]||infoTitle['黄色'];
-    $('dspPath').textContent='湖北省 / 黄石市 / '+($('dArea').textContent||'大冶市')+' · 告警时间 '+subjMt().split('·').pop().trim();
+    $('dspPath').textContent='湖北省 / '+($('dArea').textContent||'大冶市')+' · 告警时间 '+subjMt().split('·').pop().trim();
     $('wdNo').textContent='WO-20261106-'+(20+Math.floor(Math.random()*9));
     const judge={
       红色:'林区出现明火并快速蔓延，过火面积初判超过 1 公顷，可能威胁自然村湾、学校或电力通讯等重要目标；须市级响应、多部门联动处置，并由有权岗位决定启动应急预案。',
