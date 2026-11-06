@@ -78,10 +78,11 @@
     border-color:#fff;
     box-shadow:0 0 14px rgba(30,140,230,.75),inset 0 1px 0 rgba(255,255,255,.4);
   }
-  .head-right{display:flex;flex-direction:column;align-items:flex-end;gap:5px;padding-bottom:12px;}
-  .head-right .datetime{font-size:15px;color:#fff;font-weight:600;letter-spacing:1px;display:flex;gap:14px;align-items:center;text-shadow:0 1px 3px rgba(20,90,160,.4);}
-  .head-right .user{font-size:12px;color:#2a6da8;}
-  .head-right .user b{color:var(--orange);font-weight:600;}
+  .head-right{display:flex;flex-direction:column;align-items:flex-end;gap:5px;padding-bottom:10px;min-width:0;}
+  .head-right .datetime{font-size:15px;color:#fff;font-weight:600;letter-spacing:1px;display:flex;gap:14px;align-items:center;text-shadow:0 1px 3px rgba(20,90,160,.4);white-space:nowrap;}
+  .head-right .hr-line{display:flex;align-items:center;gap:10px;white-space:nowrap;font-size:11.5px;color:#2a6da8;}
+  .head-right .hr-line em{font-style:normal;color:var(--red);font-weight:700;}
+  .head-right .hr-line b{color:var(--orange);font-weight:600;}
   .scene-select{
     font-size:12px;color:#1266ad;border:1px solid rgba(120,180,225,.9);
     padding:2px 10px;border-radius:3px;background:rgba(255,255,255,.85);
@@ -664,7 +665,6 @@
   /* ---------- 第二轮：口径 / 状态机 / 交互反馈 ---------- */
   .cal-tag{display:inline-flex;align-items:center;font-size:10px;font-weight:600;color:#1668b4;background:#eaf4fd;border:1px solid #bcd9ef;border-radius:8px;padding:1px 7px;margin-right:6px;vertical-align:middle;letter-spacing:0}
   .cal-tag.gray{color:#5c86a8;background:#f2f7fb;border-color:#d8e7f3}
-  .hd-tools{display:flex;align-items:center;gap:10px}
   .hd-btn{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;color:#fff;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.5);border-radius:12px;padding:3px 11px;cursor:pointer;user-select:none;transition:all .15s}
   .hd-btn:hover{background:rgba(255,255,255,.3)}
   .hd-btn.role{background:rgba(255,211,77,.18);border-color:rgba(255,211,77,.65);color:#fff2c4}
@@ -817,6 +817,27 @@
   .asg-btn:hover{background:#f2f9ff;border-color:#9fc9e8}
   .asg-btn.primary{background:linear-gradient(90deg,#2b8bd6,#1668b4);border-color:#1668b4;color:#fff;font-weight:700;box-shadow:0 3px 10px rgba(24,119,196,.32)}
   .asg-btn.primary:hover{background:linear-gradient(90deg,#3d9be0,#1a73c0)}
+  /* ---------- 顶部栏窄屏自适应：保证「位置+时间」不被工具按钮挤压、不与 TAB 重叠 ---------- */
+  @media (max-width:1700px){
+    .head-right .hr-msg,.head-right .hr-user{display:none;}
+    header{padding:0 16px;}
+    .brand{gap:10px;}
+    .brand .logo{width:32px;height:32px;}
+    .brand h1{font-size:21px;letter-spacing:2px;}
+    .brand .sub{font-size:9.5px;letter-spacing:1px;}
+    nav.tabs{gap:7px;bottom:12px;}
+    .tab{padding:7px 20px;font-size:14px;letter-spacing:2px;}
+    .head-right .datetime{font-size:13px;gap:10px;}
+    .hd-btn{font-size:11px;padding:2px 9px;}
+  }
+  @media (max-width:1340px){
+    .brand .sub{display:none;}
+    .brand h1{font-size:19px;letter-spacing:1.5px;}
+    nav.tabs{gap:6px;}
+    .tab{padding:6px 15px;font-size:13px;letter-spacing:1px;}
+    .head-right .datetime{font-size:12px;gap:8px;}
+    .hd-btn{font-size:10.5px;padding:2px 8px;}
+  }
 </style>
 </head>
 <body>
@@ -842,13 +863,11 @@
       <div class="datetime">
         <span>📍 黄石·大冶</span><span id="dt">2026-11-06 周五 09:05:33</span>
       </div>
-      <div class="user">
-        <div class="hd-tools" style="margin-bottom:5px">
-          <span class="hd-btn" id="calOpen">ⓘ 口径说明</span>
-          <span class="hd-btn role" id="roleSel" title="点击切换当前角色">👤 当前角色：指挥长</span>
-        </div>
-        <span style="margin-left:0">🔔 我的消息 <em style="color:var(--red);font-style:normal">3</em></span>
-        <span style="margin-left:12px">👤 <b>Admin</b> · 市森防指值班室</span>
+      <div class="hr-line">
+        <span class="hd-btn" id="calOpen">ⓘ 口径说明</span>
+        <span class="hd-btn role" id="roleSel" title="点击切换当前角色">👤 当前角色：指挥长</span>
+        <span class="hr-msg">🔔 我的消息 <em>3</em></span>
+        <span class="hr-user">👤 <b>Admin</b> · 市森防指值班室</span>
       </div>
     </div>
   </header>
